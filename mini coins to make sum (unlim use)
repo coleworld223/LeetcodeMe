@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int coinChange(vector<int>& coins, int amount) {
+        int n = coins.size(),i,j;
+        vector<int> dp(amount+1);
+        for(i = 1; i <= amount; i++){
+            dp[i] = 1e5;
+            for(j = 1; j <= n; j++){
+                if(i>=coins[j-1]){
+                    dp[i] = min(dp[i],dp[i-coins[j-1]]+1);
+                }
+            }
+        }
+        // for(auto &i: dp)cout<<i<<" ";
+        if(dp[amount]>=1e5)return -1;
+        return dp[amount];
+    }
+};
