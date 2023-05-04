@@ -1,0 +1,66 @@
+class Solution {
+    //how do i find the nth super ugly number
+    //brute forces -> go on and check for each no. till you find the number
+
+    //can i use the set method
+    //put the smallest multiplied to everything in the set
+    //sc -> O(n * k) , tc -> O(n * k * log (n * k))
+    //This should not pass but still let's try
+    //So it gives a TLE but it does work since it gives a tle on 86/87
+    //lets try to optimise a bit using some break statements (which doesn't fix the problem either)
+    //Keep the idea same just try to eliminate that log(n * k) factor
+    //Same  solution but in tc -> O(n * k) and sc -> O(n + k)
+    //For Algo check the discussion section
+
+    //
+
+public:
+    int nthSuperUglyNumber(int n, vector<int>& primes) {
+        // set <int> st;
+        // for (auto val : primes){
+        //     st.insert(val);           //The commented out method is the root approach 
+                                         //The Actual answer is the optimised version
+        // }
+
+        // int ans = 1;
+        // for (int i = 2; i <= n; i++){
+        //     int x = (*st.begin());
+        //     st.erase(st.begin());
+        //     for (int j = 0; j < primes.size(); j++){
+        //         long long y = 1ll * x * primes[j];
+        //         long long mm = INT_MAX;
+        //         if(y <= mm){
+        //             st.insert(y);
+        //         }
+        //         else break;
+        //     }
+        //     ans = x;
+        // }
+        // return ans;
+
+        vector <long long> v;
+        vector <int> idx;
+        for (auto val : primes){
+            v.push_back(val);
+            idx.push_back(0);
+        }
+        vector <long long> dp(n + 1, 0);
+        dp[0] = 1;
+
+        for (int i = 1; i < n; i++){
+            long long x = INT_MAX;
+            for (int j = 0; j < v.size(); j++){
+                x = min(x, v[j]);
+            }
+            dp[i] = x;
+            for (int j = 0; j < v.size(); j++){
+                if(v[j] == dp[i]){
+                    idx[j]++;
+
+                    v[j] = (1ll * primes[j] * dp[idx[j]]);
+                }
+            }
+        }
+        return dp[n - 1];
+    }
+};
