@@ -1,0 +1,49 @@
+class Solution {
+    //can run two loops
+    //dp[i] = longest arithmetic subseq till i
+    //dp[i] = 
+
+    //func(i, j) = longest till i with common diff j
+    //func(i, j) = 1 + func(i - x, j) where a[i] - a[i - x] = j
+    //states dp[i][j] , 0 <= i <= 1000, 0 <= j <= 500 
+    //finding the states is a task which i need to do in smaller time
+    //store the max till now of dp[i][j1]
+    //bangya i think
+    //
+
+
+    //upar ka kisi tarika se ni bna
+    //niche code dekho kese bna
+    //sometimes it is very important to optimise the state transition in a 
+    //very low time consuming manner
+    //try implementing in both recursive and iterative format
+    //very standard problem -> aise hi bnega bhot sara problems to isko baad me
+    //v practice krlena
+public:
+    
+
+    int longestArithSeqLength(vector<int>& nums) {
+        int n = nums.size();
+        int m = 505;
+        vector <unordered_map <int, int>> dp(n + 4); 
+        
+        //dp[i][j] = max len seq ending at i with c.d. j
+        //dp[i][j] = 1 + dp[i - x][j], 1
+        int ans = 2;
+        //only some optimizations were there
+        for (int i = 0; i < n; i++){
+            for (int j = 0; j < i; j++){
+                int diff = nums[i] - nums[j];
+                if(dp[j].count(diff)){
+                    dp[i][diff] = dp[j][diff] + 1;
+                }
+                else{
+                    dp[i][diff] = 2;
+                }
+                ans = max(ans, dp[i][diff]);
+            }
+        }
+        
+        return ans;
+    }
+};
