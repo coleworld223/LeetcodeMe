@@ -1,0 +1,29 @@
+class Solution {
+public:
+    //dp[i][j] = sum if first ends at i and second end at j , then all possibilities will be considered
+    
+    int maxSumTwoNoOverlap(vector<int>& nums, int firstLen, int secondLen) {
+        int n = nums.size();
+        vector <int> pf(n);
+        pf[0] = nums[0];
+        for (int i = 1; i < n; i++){
+            pf[i] = pf[i - 1] + nums[i];
+        } 
+
+        vector <vector <int>> dp(n + 3, vector <int> (n + 3));
+        int ans = 0;
+        for (int i = 0; i < n; i++){
+            for (int j = 0; j < n; j++){
+                pair <int, int> fi = {j - secondLen + 1, j};
+                pair <int, int> si = {i - firstLen + 1, i};
+                pair <int, int> fini = {min(fi.first, si.first), max(fi.second, si.second)};
+                if(fini.second - fini.first + 1 < fi.second - fi.first + 1 + si.second - si.first + 1)continue;
+                if(j - secondLen + 1 < 0 || i - firstLen + 1 < 0)continue;
+                dp[i][j] = pf[j] - (j - secondLen < 0? 0 : pf[j - secondLen]) + pf[i] - (i - firstLen < 0? 0 : pf[i - firstLen]);
+                ans = max(ans, dp[i][j]);
+            }
+        }
+        
+        return ans;
+    }
+};
