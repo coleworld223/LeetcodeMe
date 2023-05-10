@@ -1,0 +1,23 @@
+int firstgoe(int x, vector <int> &nums){
+        int lo = 0;
+        int hi = nums.size();
+        hi--;
+        while(hi - lo > 1){
+            int mid = lo + (hi - lo) / 2;
+            if(nums[mid] < x)lo = mid;
+            else hi = mid;
+        }
+        if(nums[lo] >= x)return lo;
+        else return hi;
+    }
+    int lastsoe(int x, vector <int> &nums){
+        int lo = 0;
+        int hi = nums.size(); hi--;
+        while(hi - lo > 1){
+            int mid = lo + (hi - lo) / 2;
+            if(nums[mid] <= x)lo = mid;
+            else hi = mid;
+        }
+        if(nums[hi] <= x)return hi;
+        else return lo;
+    }
